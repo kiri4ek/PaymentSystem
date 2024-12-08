@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Presentation\IncomeDetails\**" />
+    <EmbeddedResource Remove="Presentation\IncomeDetails\**" />
+    <None Remove="Presentation\IncomeDetails\**" />
+    <Page Remove="Presentation\IncomeDetails\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Requests\CreatePaymentRequests.cs" />
+    <Compile Remove="Presentation\IncomesList\IncomesView.xaml.cs" />
+    <Compile Remove="Presentation\IncomesList\IncomesViewModel.cs" />
+    <Compile Remove="Presentation\OrdersList\OrdersView.xaml.cs" />
+    <Compile Remove="Presentation\OrdersList\OrdersViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Data\Models\NewFile1.txt" />
+    <None Remove="Data\Models\Status" />
+    <None Remove="Data\NewFile1.txt" />
+    <None Remove="Data\Repositories\NewFile1.txt" />
+    <None Remove="Data\Repositories\NewFile2.txt" />
+    <None Remove="Data\Repositories\NewFile3.txt" />
+    <None Remove="Data\Requests\NewFile1.txt" />
+    <None Remove="Resources\Icons\back.png" />
+    <None Remove="Resources\Icons\order.png" />
+    <None Remove="Resources\Icons\wallet.png" />
+    <None Remove="Presentation\IncomesList\NewFile1.txt" />
+    <None Remove="Presentation\IncomesList\NewFile2.txt" />
+    <None Remove="Presentation\IncomesList\NewFile3.txt" />
+    <None Remove="Presentation\Main\NewFile1.txt" />
+    <None Remove="Presentation\Main\NewFile2.txt" />
+    <None Remove="Presentation\Navigation\NewFile1.txt" />
+    <None Remove="Presentation\Navigation\NewFile2.txt" />
+    <None Remove="Presentation\NewFile1.txt" />
+    <None Remove="Presentation\OrderDetails\NewFile1.txt" />
+    <None Remove="Presentation\OrderDetails\NewFile2.txt" />
+    <None Remove="Presentation\OrderDetails\NewFile3.txt" />
+    <None Remove="Presentation\OrdersList\NewFile1.txt" />
+    <None Remove="Presentation\OrdersList\NewFile2.txt" />
+    <None Remove="Presentation\OrdersList\NewFile3.txt" />
+    <None Remove="Utilities\NewFile1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Presentation\IncomesList\IncomesView.xaml" />
+    <Page Remove="Presentation\OrdersList\OrdersView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Refit" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\back.png" />
+    <Resource Include="Resources\Icons\order.png" />
+    <Resource Include="Resources\Icons\wallet.png" />
+  </ItemGroup>
+
+</Project>

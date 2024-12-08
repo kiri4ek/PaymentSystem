@@ -1,0 +1,70 @@
+﻿<UserControl
+    x:Class="DesktopWpfClient.Presentation.IncomesList.IncomesListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:DesktopWpfClient.Presentation.IncomesList"
+    mc:Ignorable="d"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    d:Background="White"
+    d:DataContext="{d:DesignInstance local:IncomesListViewModel}">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Text="Счета"
+            FontSize="20"
+            FontWeight="Bold"
+            Margin="10"/>
+
+        <DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding Incomes, Mode=OneWay}"
+            SelectedItem="{Binding SelectedIncome}"
+            Margin="10"
+            IsReadOnly="True">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn
+                    Header="Номер"
+                    Binding="{Binding IncomeID, Mode=OneWay}"/>
+
+                <DataGridTextColumn
+                    Header="Дата"
+                    Binding="{Binding IncomeDate, Mode=OneWay}"/>
+
+                <DataGridTextColumn
+                    Header="Сумма"
+                    Binding="{Binding TotalAmount, Mode=OneWay}"/>
+
+                <DataGridTextColumn
+                    Header="Остаток"
+                    Binding="{Binding RemainingAmount, Mode=OneWay}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="10">
+
+            <Button
+                Content="Добавить счёт"
+                Command="{Binding AddIncomeCommand}"
+                Margin="5"/>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
