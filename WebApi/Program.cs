@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+п»їusing Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -11,36 +11,36 @@ namespace WebApi;
 public class Program
 {
     /// <summary>
-    /// Точка входа в приложение.
-    /// Конфигурирует и запускает Web API приложение, настраивая все необходимые сервисы и маршруты.
+    /// РўРѕС‡РєР° РІС…РѕРґР° РІ РїСЂРёР»РѕР¶РµРЅРёРµ.
+    /// РљРѕРЅС„РёРіСѓСЂРёСЂСѓРµС‚ Рё Р·Р°РїСѓСЃРєР°РµС‚ Web API РїСЂРёР»РѕР¶РµРЅРёРµ, РЅР°СЃС‚СЂР°РёРІР°СЏ РІСЃРµ РЅРµРѕР±С…РѕРґРёРјС‹Рµ СЃРµСЂРІРёСЃС‹ Рё РјР°СЂС€СЂСѓС‚С‹.
     /// </summary>
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Добавляем сервисы в контейнер.
+        // Р”РѕР±Р°РІР»СЏРµРј СЃРµСЂРІРёСЃС‹ РІ РєРѕРЅС‚РµР№РЅРµСЂ.
         builder.Services.AddDbContext<ApplicationContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
         );
 
-        // Добавляем поддержку OpenAPI (Swagger)
+        // Р”РѕР±Р°РІР»СЏРµРј РїРѕРґРґРµСЂР¶РєСѓ OpenAPI (Swagger)
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
         var app = builder.Build();
 
 
-        // Конфигурация HTTP-пайплайна
+        // РљРѕРЅС„РёРіСѓСЂР°С†РёСЏ HTTP-РїР°Р№РїР»Р°Р№РЅР°
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
-        // Включение поддержки HTTPS
+        // Р’РєР»СЋС‡РµРЅРёРµ РїРѕРґРґРµСЂР¶РєРё HTTPS
         app.UseHttpsRedirection();
 
-        // **1. Добавление нового заказа**
+        // **1. Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ Р·Р°РєР°Р·Р°**
         app.MapPost("/api/orders", async ([FromBody] CreateOrderRequest request, ApplicationContext db) =>
         {
             var order = new Order
@@ -54,20 +54,20 @@ public class Program
             return Results.Ok(order);
         });
 
-        // **2. Получение списка заказов**
+        // **2. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° Р·Р°РєР°Р·РѕРІ**
         app.MapGet("/api/orders", async (ApplicationContext db) =>
         {
             var orders = await db.Orders.ToListAsync();
             return Results.Ok(orders);
         });
 
-        // **3. Получение заказа по ID**
+        // **3. РџРѕР»СѓС‡РµРЅРёРµ Р·Р°РєР°Р·Р° РїРѕ ID**
         app.MapGet("/api/orders/{id}", async ([FromRoute(Name = "id")] int OrderID, ApplicationContext db) => {
             var orders = await db.Orders.FirstOrDefaultAsync(o => o.OrderID == OrderID);
             return Results.Ok(orders);
         });
 
-        // **4. Добавление прихода денег**
+        // **4. Р”РѕР±Р°РІР»РµРЅРёРµ РїСЂРёС…РѕРґР° РґРµРЅРµРі**
         app.MapPost("/api/incomes", async ([FromBody] CreateIncomeRequest request, ApplicationContext db) =>
         {
             var income = new MoneyIncome
@@ -81,41 +81,41 @@ public class Program
             return Results.Ok(income);
         });
 
-        // **5. Получение списка приходов денег**
+        // **5. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РїСЂРёС…РѕРґРѕРІ РґРµРЅРµРі**
         app.MapGet("/api/incomes", async (ApplicationContext db) => {
             var incomes = await db.MoneyIncome.ToListAsync();
             return Results.Ok(incomes);
         });
 
-        // **6. Получение прихода денег по ID**
+        // **6. РџРѕР»СѓС‡РµРЅРёРµ РїСЂРёС…РѕРґР° РґРµРЅРµРі РїРѕ ID**
         app.MapGet("/api/incomes/{id}", async ([FromRoute(Name = "id")] int incomeID, ApplicationContext db) => {
             var incomes = await db.MoneyIncome.FirstOrDefaultAsync(i => i.IncomeID == incomeID);
             return Results.Ok(incomes);
         });
 
-        // **7. Добавление платежа**
+        // **7. Р”РѕР±Р°РІР»РµРЅРёРµ РїР»Р°С‚РµР¶Р°**
         app.MapPost("/api/payments", async ([FromBody] CreatePaymentRequest request, ApplicationContext db) =>
         {
-            // Получаем заказ и приход по ID
+            // РџРѕР»СѓС‡Р°РµРј Р·Р°РєР°Р· Рё РїСЂРёС…РѕРґ РїРѕ ID
             var order = await db.Orders.FindAsync(request.OrderID);
             var income = await db.MoneyIncome.FindAsync(request.IncomeID);
 
             if (order == null || income == null)
-                return Results.NotFound("Заказ или денежный приход не найдены.");
+                return Results.NotFound("Р—Р°РєР°Р· РёР»Рё РґРµРЅРµР¶РЅС‹Р№ РїСЂРёС…РѕРґ РЅРµ РЅР°Р№РґРµРЅС‹.");
 
             if (income.RemainingAmount != request.ExpectedRemainingAmount) {
-                return Results.Conflict("Обновите информацию платежей.");
+                return Results.Conflict("РћР±РЅРѕРІРёС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЋ РїР»Р°С‚РµР¶РµР№.");
             }
 
             if (order.PaidAmount != request.ExpectedPaidAmount) {
-                return Results.Conflict("Обновите информацию по заказам.");
+                return Results.Conflict("РћР±РЅРѕРІРёС‚Рµ РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ Р·Р°РєР°Р·Р°Рј.");
             }
 
             if (income.RemainingAmount < request.PaymentAmount)
-                return Results.BadRequest("Недостаточно средств в выбранном приходе.");
+                return Results.BadRequest("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ СЃСЂРµРґСЃС‚РІ РІ РІС‹Р±СЂР°РЅРЅРѕРј РїСЂРёС…РѕРґРµ.");
 
             if (order.TotalAmount - order.PaidAmount < request.PaymentAmount)
-                return Results.BadRequest("Осталось оплатить меньше передаваемого.");
+                return Results.BadRequest("РћСЃС‚Р°Р»РѕСЃСЊ РѕРїР»Р°С‚РёС‚СЊ РјРµРЅСЊС€Рµ РїРµСЂРµРґР°РІР°РµРјРѕРіРѕ.");
 
             var payment = new Payment
             {
@@ -129,7 +129,7 @@ public class Program
             return Results.Ok(payment);
         });
 
-        // **8. Получение списка платежей**
+        // **8. РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РїР»Р°С‚РµР¶РµР№**
         app.MapGet("/api/payments", async ([FromQuery(Name = "orderId")] int? orderID, ApplicationContext db) => {
             IQueryable<Payment> query = db.Payments.AsQueryable();
             if (orderID != null) {
